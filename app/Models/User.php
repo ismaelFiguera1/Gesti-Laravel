@@ -25,9 +25,7 @@ class User extends Authenticatable
         'role_id',
 
     ];
-
-
-
+    public $timestamps = false;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -51,6 +49,14 @@ class User extends Authenticatable
             'created' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->password = bcrypt($user->password);
+        });
     }
 
 }

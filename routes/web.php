@@ -7,5 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/contact/company',[ContactesController::class,'VistaContactes'])->name('contactes');
-Route::get('/contact/company/afegir',[ContactesController::class,'afegirContacte'])->name('contactes.afegir');
+Route::get('',[ContactesController::class,'VistaContactes'])->name('contactes');
+Route::get('/company/company/afegir',[ContactesController::class,'afegirContacte'])->name('contactes.afegir');
+Route::post('/company/company/esborrar/{id}',[ContactesController::class,'esborrarContacte'])->name('contacte.esborrar');
+Route::get('/company/company/editar/{id}',[ContactesController::class,'actualitzarContacte'])->name('contacte.actualitzar');
+
