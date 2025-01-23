@@ -26,3 +26,11 @@ Route::post('/usuaris', [UsuariController::class, 'store'])->name('usuaris.store
 Route::get('/usuaris/{usuari}/edit', [UsuariController::class, 'edit'])->name('usuaris.edit');
 Route::put('/usuaris/{usuari}', [UsuariController::class, 'update'])->name('usuaris.update');
 Route::post('/usuaris/{usuari}', [UsuariController::class, 'destroy'])->name('usuaris.destroy');
+
+Route::get('',[ContactesController::class,'VistaContactes'])->name('contactes');
+Route::get('/company/company/afegir',[ContactesController::class,'afegirContacte'])->name('contactes.afegir');
+Route::post('/company/company/esborrar/{id}',[ContactesController::class,'esborrarContacte'])->name('contacte.esborrar');
+Route::get('/company/company/editar/{id}',[ContactesController::class,'actualitzarContacte'])->name('contacte.actualitzar');
+Route::post('/company/company/vincularContactPrimary/{id}',[ContactesController::class,'VincularContacte'])->name('contacte.vincular');
+
+

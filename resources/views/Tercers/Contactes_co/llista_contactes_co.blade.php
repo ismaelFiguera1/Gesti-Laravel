@@ -5,8 +5,9 @@
 @section('content_header')
     <h1>Gestió de Contactes</h1>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/themes/default.min.css"/>
     <style>
 
 
@@ -16,7 +17,17 @@
 
 @section('content')
 
+    @if(session('Failed'))
+        <script>
+            alertify.error("{{ session('Failed') }}");
+        </script>
+    @endif
 
+    @if(session('Correcte'))
+        <script>
+            alertify.success("{{ session('Correcte') }}");
+        </script>
+    @endif
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Contactes</h3>
@@ -31,6 +42,7 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Correo Electrónico</th>
+                    <th>Accions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,23 +51,31 @@
                     <td>{{$contacte->id}}</td>
                     <td>{{$contacte->username}}</td>
                     <td>{{$contacte->email}}</td>
+                    <td style="display:flex; ">
 
+                            <form action="{{ route('contacte.esborrar',$contacte->id) }}" method="post" id="form-{{$contacte->id}}">
+                                @csrf
+                                @method('post')
+                                <button  id="btn-esborrar" type="button" class=" btn-outline-danger border-0" onclick="esborraContacte({{$contacte->id}})"><i class="fas fa-trash"></i></button>
+                            </form>
+                            <button class="btn-outline-secondary border-0" style="margin-left: 4%;" data-toggle="modal" data-target="#userFormModal"><i class="fas fa-edit"></i></button>
+                            @include('tercers/Contactes_co/layouts/form-actualitzar')
+                        <button class="btn-link border-0" id="btn-primary-contact"><i class="fas fa-link"></i></button>
+                    </td>
 
                 </tr>
  @endforeach
-                <tr>
-                    <td>1</td>
-                    <td>Juan Pérez</td>
-                    <td>juan@example.com</td>
 
-
-                </tr>
 
                 </tbody>
             </table>
 
         </div>
         @include('tercers/Contactes_co/layouts/form-afegir')
+
+
+
+
 
         <!-- /.card-body -->
     </div>
@@ -71,7 +91,18 @@
 
     <script>
 
-    $('#taulacontactes').DataTable();
+    $('#taulacontactes').DataTable({
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/ca.json'
+        },
+        "order": [[0, "asc"]],
+        "pageLength": 10,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Tots"]]
+    });
+
+
+
+
     /**control form overlay**/
     $(document).ready(function () {
 
@@ -90,8 +121,12 @@
                 $('#overlay-form').fadeOut();
             }
         });
-        @if ($errors->any())
-        $('#overlay-form').fadeIn(); // Muestra el formulario cuando hay errores
+
+        @if ($errors->any()&&($errors->has('usuari') || $errors->has('email') || $errors->has('telefon') ||$errors->has('contrasenya')))
+        $('#overlay-form').fadeIn();
+        @endif
+        @if ($errors->any() &&($errors->has('telefonmovil') || $errors->has('correu') || $errors->has('nomusuari')))
+        $('#userFormModal').modal('show');
         @endif
     });
 
@@ -116,7 +151,19 @@
                  $('#form-afegir').submit();
             }
         });
+
+
+
     });
+    function esborraContacte(id){
+        alertify.confirm("ELIMINAR CONTACTE","Estàs segur que vols eliminar aquest contacte? Aquesta acció no es pot desfer.",
+            function(){
+                alertify.success('CONTACTE ELIMINAT',document.getElementById(`form-${id}`).submit());
+            },
+            function(){
+                alertify.error('CANCELAT');
+            });
+    }
 
 </script>
 @endsection
