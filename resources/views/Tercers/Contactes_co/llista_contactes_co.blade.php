@@ -60,6 +60,7 @@
                             </form>
                             <button class="btn-outline-secondary border-0" style="margin-left: 4%;" data-toggle="modal" data-target="#userFormModal"><i class="fas fa-edit"></i></button>
                             @include('tercers/Contactes_co/layouts/form-actualitzar')
+                        <button class="btn-link border-0" id="btn-primary-contact"><i class="fas fa-link"></i></button>
                     </td>
 
                 </tr>
@@ -121,11 +122,11 @@
             }
         });
 
-        @if ($errors->any())
-        $('#overlay-form').fadeIn(); // Muestra el formulario cuando hay errores
+        @if ($errors->any()&&($errors->has('usuari') || $errors->has('email') || $errors->has('telefon') ||$errors->has('contrasenya')))
+        $('#overlay-form').fadeIn();
         @endif
-        @if ($errors->any() && isset($editar) && $editar)
-        $('#editarFormModal').fadeIn();
+        @if ($errors->any() &&($errors->has('telefonmovil') || $errors->has('correu') || $errors->has('nomusuari')))
+        $('#userFormModal').modal('show');
         @endif
     });
 
@@ -155,7 +156,7 @@
 
     });
     function esborraContacte(id){
-        alertify.confirm("ELIMINAR MONITOR","Estàs segur que vols eliminar aquest monitor? Aquesta acció no es pot desfer.",
+        alertify.confirm("ELIMINAR CONTACTE","Estàs segur que vols eliminar aquest contacte? Aquesta acció no es pot desfer.",
             function(){
                 alertify.success('CONTACTE ELIMINAT',document.getElementById(`form-${id}`).submit());
             },

@@ -7,13 +7,17 @@ use Illuminate\Http\Request;
 
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ContactesController
 {
 
     public function VistaContactes()
     {
-        $usuaris = User::all();
+        $usuaris = User::join('account_details', 'users.id', '=', 'account_details.user_id')
+            ->where('account_details.company', 1)
+            ->select('users.*', 'account_details.*')
+            ->get();
 
             return view('Tercers.Contactes_co.llista_contactes_co',compact('usuaris'));
 
@@ -45,10 +49,18 @@ class ContactesController
         $user = User::create([
             'email' => $validates['email'],
             'username' => $validates['usuari'],
-            'password' => bcrypt($validates['contrasenya']),
+            'password' => $validates['contrasenya'],
+
+        ]);
+        $dadesadicionals = DB::table('account_details')->insert([
+            'user_id' =>$user->id,
+            'nomcomplet' => $validates['usuari'],
+            'telefon'=>$validates['telefon'],
+            'company' => 1,
         ]);
 
-        return redirect()->back()->with('afegit', true);
+
+        return redirect()->back()->with('success', 'contacte afegit correctament');
     }
 
     public function esborrarContacte($id)
@@ -65,21 +77,33 @@ class ContactesController
     public function actualitzarContacte($id,Request $request)
     {
         $validates = $request->validate([
-            'email' => 'required|email',
-            'usuari' => 'required|string|min:5|max:100',
+            'correu' => 'required|email',
+            'nomusuari' => 'required|string|min:5|max:100',
+            'telefonmovil'=>'nullable|string|min:9|max:20',
+            'nomcomplet'=>'required|string|min:5|max:100',
         ], [
-            'email.required' => 'El correu és obligatori.',
-            'email.email' => 'El correu no té el format adequat.',
-            'usuari.required' => "L'usuari és obligatori.",
-            'usuari.min' => "L'usuari ha de tenir més de 5 caràcters.",
-            'usuari.max' => "L'usuari no pot tenir més de 100 caràcters.",
+            'correu.required' => 'El correu és obligatori.',
+            'correu.email' => 'El correu no té el format adequat.',
+            'nomusuari.required' => "L'usuari és obligatori.",
+            'nomusuari.min' => "L'usuari ha de tenir més de 5 caràcters.",
+            'nomusuari.max' => "L'usuari no pot tenir més de 100 caràcters.",
+            'nomcomplet.required'=> "Nom Complet és Obligatori",
         ]);
+        //cambiar dades de l'usuari
         $usuari = User::where('id',$id)->update([
-                'email' => $validates['email'],
-                'username' => $validates['usuari'],
+                'email' => $validates['correu'],
+                'username' => $validates['nomusuari'],
+
+        ]);
+        //cambiar les dades addicionals telfon i nom complet de contacte
+        $dades_adicionals = DB::table('account_details')->update([
+             'telefon'=>$validates['telefonmovil'],
+            'nomcomplet'=>$validates['nomcomplet'],
         ]);
 
-            return redirect()->back()->with('editar', true);
+
+            return redirect()->back()->with('success', 'Usuari Actualitzat Perfectament');
 
     }
+    /*per vincular el contac*/
 }

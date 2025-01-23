@@ -20,23 +20,23 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="usuari" placeholder="Nom usuari *" value="{{ old('usuari', $contacte->username) }}"/>
+                                <input type="text" class="form-control" name="nomusuari" placeholder="Nom usuari *" value="{{ old('nomusuari', $contacte->username) }}"/>
 
-                                @error('usuari')
+                                @error('nomusuari')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="email" placeholder="E-mail *" value="{{ old('email', $contacte->email) }}"/>
-                                @error('email')
+                                <input type="text" class="form-control" name="correu" placeholder="E-mail *" value="{{ old('correu', $contacte->email) }}"/>
+                                @error('correu')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" name="telefon" placeholder="Telèfon *" value="{{old('telefon')}}"/>
-                                @error('telefon')
+                                <input type="text" class="form-control" name="telefonmovil" placeholder="Telèfon *" value="{{old('telefonmovil',$contacte->telefon)}}"/>
+                                @error('telefonmovil')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>

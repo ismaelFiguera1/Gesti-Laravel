@@ -17,7 +17,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $table = 'compsa_users';
+    protected $table = 'users';
     protected $fillable = [
         'username',
         'email',
