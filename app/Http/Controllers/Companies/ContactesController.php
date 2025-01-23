@@ -105,5 +105,10 @@ class ContactesController
             return redirect()->back()->with('success', 'Usuari Actualitzat Perfectament');
 
     }
-    /*per vincular el contac*/
+    /*per vincular el contacte com a  primary*/
+    public function VincularContacte($id)
+    {
+        $usuari = DB::table('compsa_clients')->update(['primary_contact'=>$id]);
+        redirect()->back()->with('success', 'Contacte Vinculat correctament');
+    }
 }
