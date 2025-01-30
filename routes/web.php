@@ -1,13 +1,34 @@
 <?php
 
-use App\Http\Controllers\Companies\ContactesController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Companies\ContactesController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UsuariController;
 
 Route::get('/', function () {
-    return redirect()->route('clients.index');
+    return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+
+
+
+
+
+
+
+
 
 Route::get('/contact/company',[ContactesController::class,'VistaContactes'])->name('contactes');
 Route::get('/contact/company/afegir',[ContactesController::class,'afegirContacte'])->name('contactes.afegir');
@@ -34,3 +55,7 @@ Route::get('/company/company/editar/{id}',[ContactesController::class,'actualitz
 Route::post('/company/company/vincularContactPrimary/{id}',[ContactesController::class,'VincularContacte'])->name('contacte.vincular');
 
 
+
+
+
+require __DIR__.'/auth.php';
