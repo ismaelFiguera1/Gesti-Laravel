@@ -10,9 +10,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
+
+
+
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard_aplicacio');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
+
+
+Route::get('/dashboardqw', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -48,7 +62,7 @@ Route::get('/usuaris/{usuari}/edit', [UsuariController::class, 'edit'])->name('u
 Route::put('/usuaris/{usuari}', [UsuariController::class, 'update'])->name('usuaris.update');
 Route::post('/usuaris/{usuari}', [UsuariController::class, 'destroy'])->name('usuaris.destroy');
 
-Route::get('',[ContactesController::class,'VistaContactes'])->name('contactes');
+
 Route::get('/company/company/afegir',[ContactesController::class,'afegirContacte'])->name('contactes.afegir');
 Route::post('/company/company/esborrar/{id}',[ContactesController::class,'esborrarContacte'])->name('contacte.esborrar');
 Route::get('/company/company/editar/{id}',[ContactesController::class,'actualitzarContacte'])->name('contacte.actualitzar');
