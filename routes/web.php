@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Companies\ContactesController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UsuariController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,6 +21,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+Route::get('/perfil', function () {
+    return view('profile', ['user' => Auth::user()]);
+});
 
 
 
