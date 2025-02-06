@@ -12,7 +12,9 @@ Route::get('/', function () {
 });
 
 
-
+Route::get('/home', function () {
+    return view('home');
+});
 
 
 
@@ -21,9 +23,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/perfil', function () {
-    return view('profile', ['user' => Auth::user()]);
-});
+
 
 
 
