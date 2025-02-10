@@ -2,67 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use Illuminate\Http\Request;
+use App\Models\Client;
 
 class ClientController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $clients = Client::orderBy('nom')->paginate(10);
+        $clients = Client::all(); // Obtenim tots els clients
         return view('clients.index', compact('clients'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        return view('clients.create');
+        //
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nom' => 'required|string|max:255',
-            'cognom' => 'nullable|string|max:255',
-            'correu' => 'required|email|unique:clients,correu',
-            'telefon' => 'required|string|max:20',
-            'adreça' => 'required|string|max:255',
-            'poblacio' => 'required|string|max:255',
-            'codi_postal' => 'required|string|max:10',
-        ]);
-
-        Client::create($validated);
-        return redirect()->route('clients.index')->with('success');
+        //
     }
 
-    public function edit(Client $client)
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
-        return view('clients.edit', compact('client'));
+        //
     }
 
-    public function update(Request $request, Client $client)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
     {
-        $validated = $request->validate([
-            'nom' => 'required|string|max:255',
-            'cognom' => 'nullable|string|max:255',
-            'correu' => 'required|email|unique:clients,correu,' . $client->id,
-            'telefon' => 'required|string|max:20',
-            'adreça' => 'required|string|max:255',
-            'poblacio' => 'required|string|max:255',
-            'codi_postal' => 'required|string|max:10',
-        ]);
-
-        $client->update($validated);
-        return redirect()->route('clients.index')->with('success');
+        //
     }
 
-    public function destroy(Client $client)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
     {
-        $client->delete();
-        return redirect()->route('clients.index')->with('success');
+        //
     }
 
-    public function show(Client $client)
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
     {
-        return view('clients.show', compact('client'));
+        //
     }
 }

@@ -7,12 +7,10 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UsuariController;
 use Illuminate\Support\Facades\Auth;
 
+
+
+
 Route::get('/', function () {
-    return view('welcome');
-});
-
-
-Route::get('/home', function () {
     return view('home');
 });
 
@@ -39,7 +37,9 @@ Route::middleware('auth')->group(function () {
 });
 
 
+// Clients
 
+Route::resource('clients', ClientController::class);
 
 
 
@@ -51,12 +51,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/contact/company',[ContactesController::class,'VistaContactes'])->name('contactes');
 Route::get('/contact/company/afegir',[ContactesController::class,'afegirContacte'])->name('contactes.afegir');
 
-// Rutes específiques per a clients
-Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
-Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
-Route::get('/clients/{client}/edit', [ClientController::class, 'edit'])->name('clients.edit');
-Route::put('/clients/{client}', [ClientController::class, 'update'])->name('clients.update');
-Route::post('/clients/{client}', [ClientController::class, 'destroy'])->name('clients.destroy');
+
 
 // Rutes específiques per a usuaris
 Route::get('/usuaris', [UsuariController::class, 'index'])->name('usuaris.index');

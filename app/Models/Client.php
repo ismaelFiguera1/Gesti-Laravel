@@ -2,19 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-    protected $table = 'clients';
+    use HasFactory;
 
+    protected $table = 'clients'; // Nom de la taula
+
+    // Camps assignables massivament
     protected $fillable = [
         'nom',
-        'cognom',
-        'correu',
-        'telefon',
+        'cognoms',
+        'empresa',
+        'tipus_client',
         'adreça',
-        'poblacio',
-        'codi_postal',
+        'telefon',
+        'correu_electronic',
+        'nif',
     ];
 }
