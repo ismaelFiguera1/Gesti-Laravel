@@ -39,7 +39,10 @@ Route::middleware('auth')->group(function () {
 
 // Clients
 
-Route::resource('clients', ClientController::class);
+Route::middleware('auth')->group(function () {
+    Route::resource('/clients', ClientController::class);
+});
+
 
 
 
