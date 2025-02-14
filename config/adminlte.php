@@ -110,7 +110,7 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'mode' => 'fullscreen',
         'img' => [
             'path' => 'vendor/adminlte/dist/img/compsa.png',
@@ -329,9 +329,15 @@ return [
         ],
         ['header' => 'account_settings'],
         [
-            'text' => 'profile',
+            'text' => 'Perfil',
             'url' => 'profile',
             'icon' => 'fas fa-fw fa-user',
+        ],
+
+        [
+            'text' => 'Clients',
+            'url' => 'clients',
+            'icon' => 'fas fa-users',
         ],
        /* 
        [

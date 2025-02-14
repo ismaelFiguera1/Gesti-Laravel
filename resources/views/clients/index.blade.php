@@ -8,6 +8,7 @@
 
 @section('content')
     <div class="container-fluid">
+      <a href="{{ route('clients.searchForm') }}" id="btnCarregaFormBuscar" class="btn btn-secondary">Buscar Clients</a>
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -19,7 +20,7 @@
                 <h3 class="card-title">Clients</h3>
                 <div class="card-tools">
                     <!-- Afegir classe "add-client" al botó -->
-                    <a href="{{ route('clients.create') }}" class="btn btn-primary btn-sm add-client">Afegir Client</a>
+                    <a href="{{ route('clients.create') }}" class="btn btn-primary btn-sm add-client boto-Afegir">Afegir Client</a>
                 </div>
             </div>
             <div class="card-body p-0">
@@ -42,9 +43,9 @@
                                 <td>{{ $client->empresa }}</td>
                                 <td>
                                     <!-- Botó "Veure" amb classe 'view-client' -->
-                                    <a href="{{ route('clients.show', $client->id) }}" class="btn btn-info btn-sm view-client">Veure</a>
+                                    <a href="{{ route('clients.show', $client->id) }}" class="btn btn-info btn-sm view-client botoVeurer">Veure</a>
                                     <!-- Botó "Editar" amb classe 'edit-client' -->
-                                    <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-warning btn-sm edit-client">Editar</a>
+                                    <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-warning btn-sm edit-client boto-Editar">Editar</a>
                                     <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
@@ -56,6 +57,10 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="card-footer clearfix">
+              {{ $clients->links('vendor1.pagination.custom') }}
+
             </div>
         </div>
     </div>
@@ -70,7 +75,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body contingut-veurer-client">
             <!-- La informació es carregarà aquí via AJAX -->
           </div>
         </div>
@@ -87,8 +92,8 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <!-- El formulari d'edició es carregarà aquí via AJAX -->
+          <div class="modal-body contingut-editar-client">
+            
           </div>
         </div>
       </div>
@@ -104,7 +109,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body contingut-afegir-client">
             <!-- El formulari per afegir client es carregarà aquí via AJAX -->
           </div>
         </div>
@@ -113,71 +118,5 @@
 @endsection
 
 @section('js')
-<script>
-    $(document).ready(function(){
-        // Funcionalitat per "Veure"
-        $(document).on('click', '.view-client', function(e){
-            e.preventDefault();
-            var url = $(this).attr('href');
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(data){
-                    var content = '<p><strong>Nom:</strong> ' + data.nom + '</p>';
-                    content += '<p><strong>Cognoms:</strong> ' + data.cognoms + '</p>';
-                    content += '<p><strong>Empresa:</strong> ' + (data.empresa ? data.empresa : '-') + '</p>';
-                    content += '<p><strong>Tipus Client:</strong> ' + data.tipus_client + '</p>';
-                    content += '<p><strong>Adreça:</strong> ' + (data.adreça ? data.adreça : '-') + '</p>';
-                    content += '<p><strong>Telefon:</strong> ' + (data.telefon ? data.telefon : '-') + '</p>';
-                    content += '<p><strong>Correu Electrònic:</strong> ' + data.correu_electronic + '</p>';
-                    content += '<p><strong>NIF:</strong> ' + (data.nif ? data.nif : '-') + '</p>';
-                    $('#clientModal .modal-body').html(content);
-                    $('#clientModal').modal('show');
-                },
-                error: function(){
-                    alert('Error carregant els detalls del client.');
-                }
-            });
-        });
-
-        // Funcionalitat per "Editar"
-        $(document).on('click', '.edit-client', function(e){
-            e.preventDefault();
-            var url = $(this).attr('href');
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response){
-                    $('#clientEditModal .modal-body').html(response.html);
-                    $('#clientEditModal').modal('show');
-                },
-                error: function(){
-                    alert('Error carregant el formulari d\'edició.');
-                }
-            });
-            console.log("Clic editar capturat");
-        });
-
-        // Funcionalitat per "Afegir Client"
-        $(document).on('click', '.add-client', function(e){
-            e.preventDefault();
-            var url = $(this).attr('href');
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response){
-                    $('#clientAddModal .modal-body').html(response.html);
-                    $('#clientAddModal').modal('show');
-                },
-                error: function(){
-                    alert('Error carregant el formulari per afegir client.');
-                }
-            });
-            console.log("Clic afegir capturat");
-        });
-    });
-</script>
+<script src="javascript/clients.js"></script>
 @endsection

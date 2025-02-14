@@ -12,7 +12,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::all(); // Obtenim tots els clients
+        $clients = Client::paginate(10); // Obtenim tots els clients
         return view('clients.index', compact('clients'));
     }
 
@@ -105,4 +105,25 @@ class ClientController extends Controller
         $client->delete();
         return redirect()->route('clients.index')->with('success', 'Client eliminat correctament.');
     }
+
+    public function buscar(Request $request)
+{
+    // Recuperamos el NIF enviado por el formulario (por ejemplo, desde el input 'nif')
+    $nif = $request->input('nif');
+
+    // Buscamos clientes cuyo campo 'nif' contenga el valor ingresado
+    // (puedes usar '=' para coincidencia exacta)
+    $clients = Client::where('nif', '=', $nif)->paginate(10);
+
+    // Retornamos la vista del listado de clientes, con los resultados filtrados
+    return view('clients.index', compact('clients'));
+}
+
+public function searchForm()
+{
+    $html = view('clients.search_form')->render();
+    return response()->json(['html' => $html]);
+}
+
+
 }

@@ -39,9 +39,13 @@ Route::middleware('auth')->group(function () {
 
 // Clients
 
+Route::get('/clients/search-form', [ClientController::class, 'searchForm'])->name('clients.searchForm');
+
 Route::middleware('auth')->group(function () {
     Route::resource('/clients', ClientController::class);
 });
+
+
 
 
 
