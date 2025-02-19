@@ -12,9 +12,20 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::paginate(10); // Obtenim tots els clients
+        $clients = Client::paginate(15); // Obtenim tots els clients
         return view('clients.index', compact('clients'));
     }
+
+
+
+    public function buscar()
+    {
+        $html = view('clients.search_form')->render();   
+        //$html = view('clients.search_form') aixo retorna un objecte view, el render ho convirteix a text, llav
+        return response()->json(['codi' => $html]);
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -22,11 +33,11 @@ class ClientController extends Controller
 
     
     public function create()
-{
-    // Renderitza la vista parcial create_modal i retorna el HTML en format JSON
-    $html = view('clients.create_modal')->render();
-    return response()->json(['html' => $html]);
-}
+    {
+        // Renderitza la vista parcial create_modal i retorna el HTML en format JSON
+        $html = view('clients.create_modal')->render();
+        return response()->json(['html' => $html]);
+    }
 
 
     /**
@@ -106,24 +117,18 @@ class ClientController extends Controller
         return redirect()->route('clients.index')->with('success', 'Client eliminat correctament.');
     }
 
-    public function buscar(Request $request)
-{
-    // Recuperamos el NIF enviado por el formulario (por ejemplo, desde el input 'nif')
-    $nif = $request->input('nif');
-
-    // Buscamos clientes cuyo campo 'nif' contenga el valor ingresado
-    // (puedes usar '=' para coincidencia exacta)
-    $clients = Client::where('nif', '=', $nif)->paginate(10);
-
-    // Retornamos la vista del listado de clientes, con los resultados filtrados
-    return view('clients.index', compact('clients'));
-}
-
-public function searchForm()
-{
-    $html = view('clients.search_form')->render();
-    return response()->json(['html' => $html]);
-}
+    public function buscarNif(Request $request)
+    {
+        // Recuperamos el valor de 'nif' enviado por el formulario
+        $nif = $request->input('nif');
+    
+        // Filtramos clientes con coincidencia exacta de NIF
+        $clients = Client::where('nif', $nif)->paginate(10);
+    
+        // Retornamos la vista con los clientes filtrados
+        return view('clients.index', compact('clients'));
+    }
+    
 
 
 }

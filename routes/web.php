@@ -39,7 +39,10 @@ Route::middleware('auth')->group(function () {
 
 // Clients
 
-Route::get('/clients/search-form', [ClientController::class, 'searchForm'])->name('clients.searchForm');
+Route::get('/clients/search-form', [ClientController::class, 'buscar'])->name('clients.buscar');
+
+Route::get('/clients/buscar-nif', [ClientController::class, 'buscarNif'])->name('clients.buscar.nif');
+
 
 Route::middleware('auth')->group(function () {
     Route::resource('/clients', ClientController::class);

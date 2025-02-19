@@ -103,4 +103,44 @@ $botoAfegir.forEach((boto)=>{
 
 
 const $buscar = d.querySelector("#btnCarregaFormBuscar");
-console.log($buscar);
+
+$buscar.addEventListener("click", async (e) => {
+    e.preventDefault();
+    let url = $buscar.getAttribute("href");
+    const $contingut = d.querySelector("#buscarModal .modal-body");
+    const $id = d.querySelector("#buscarModal");
+    const modalInstance = new bootstrap.Modal($id);
+
+    // El await sol es fa servir cuan hi ha algo que retorna una promesa, para el codi, fa la promesa i retorna el resultat
+    // si no el fico em retorna l'objecte promesa, NO el resultat
+
+    try {
+
+        $contingut.innerHTML = '<div class="spinner-border" role="status"></div>';
+
+        let resposta = await fetch(url, {
+            method: "GET",
+            headers: { "Accept": "application/json" },
+            // el headers vol dir que "prefereixo" json, pero al controlador tinc que dir que retorni json obligatoriament
+        })
+
+        
+
+        
+
+        if (!resposta.ok) {
+            throw new Error(`Error al carregar la resposta. Error: ${resposta.status}` );
+        }
+
+        let dadesJSON = await resposta.json();
+
+        $contingut.innerHTML=dadesJSON.codi;
+        modalInstance.show();
+
+        
+    } catch (error) {
+        console.error(error);
+        alert(`Error: ${error}`)
+        
+    }
+})

@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="container-fluid">
-      <a href="{{ route('clients.searchForm') }}" id="btnCarregaFormBuscar" class="btn btn-secondary">Buscar Clients</a>
+      <a href="{{ route('clients.buscar') }}" id="btnCarregaFormBuscar" class="btn btn-secondary">Buscar Clients</a>
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -64,6 +64,26 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal básico -->
+    <div class="modal fade" id="buscarModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <!-- Cabecera del modal -->
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">Título del Modal</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- Cuerpo del modal -->
+          <div class="modal-body">
+            Aquí va el contenido del modal.
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- Modal per mostrar els detalls del client -->
     <div class="modal fade" id="clientModal" tabindex="-1" role="dialog" aria-labelledby="clientModalLabel" aria-hidden="true">
